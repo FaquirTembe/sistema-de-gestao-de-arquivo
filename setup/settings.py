@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+     'axes',              # protecao contra tentativas de login a forca bruta
+
+     'contas',             # app de contas de usuario
 ]
 
 MIDDLEWARE = [

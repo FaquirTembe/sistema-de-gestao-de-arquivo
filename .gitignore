@@ -1,0 +1,16 @@
+# Ambiente virtual
+.venv/
+ 
+# Ficheiros Python compilados
+__pycache__/
+*.pyc
+ 
+# Segredos
+.env
+ 
+ 
+# Ficheiros enviados pelos utilizadores (documentos anexados)
+media/
+ 
+# Ficheiros do editor
+.vscode/

@@ -157,3 +157,10 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'   # MEDIA_ROOT é a pasta REAL no disco onde os ficheiros sao guardados.
+
+ 
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024   # maximo 5 MB por ficheiro

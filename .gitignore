@@ -14,3 +14,6 @@ media/
  
 # Ficheiros do editor
 .vscode/
+
+# Logs 
+logs/

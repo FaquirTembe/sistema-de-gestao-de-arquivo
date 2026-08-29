@@ -165,3 +165,24 @@ MEDIA_ROOT = BASE_DIR / 'media'   # MEDIA_ROOT é a pasta REAL no disco onde os 
 
  
 FILE_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024   # maximo 5 MB por ficheiro
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'ficheiro_auditoria': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': BASE_DIR / 'logs' / 'auditoria.log',
+            'maxBytes': 5 * 1024 * 1024,   # roda o ficheiro ao chegar a 5MB
+            'backupCount': 5,               # mantem os ultimos 5 ficheiros
+        },
+    },
+    'loggers': {
+        'auditoria': {
+            'handlers': ['ficheiro_auditoria'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}

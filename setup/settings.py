@@ -53,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'axes.middleware.AxesMiddleware',
 ]
 
 ROOT_URLCONF = 'setup.urls'
@@ -93,6 +94,16 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
 AUTH_USER_MODEL = 'contas.Usuario'
+
+AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesStandaloneBackend',        # tem de vir PRIMEIRO
+    'django.contrib.auth.backends.ModelBackend',   # o backend normal do Django
+]
+
+AXES_FAILURE_LIMIT = 5        # 5 tentativas erradas -> bloqueia
+AXES_COOLOFF_TIME = 1         # bloqueado durante 1 hora
+AXES_LOCKOUT_PARAMETERS = ['username']   # bloqueia a CONTA, nao so o IP
+
 
 
 

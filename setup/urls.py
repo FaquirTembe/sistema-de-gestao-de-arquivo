@@ -23,5 +23,3 @@ urlpatterns = [
 ]
 
 
-LOGIN_URL = 'contas:entrar'              # para onde mandar quem nao esta autenticado
-LOGIN_REDIRECT_URL = '/'                 # para onde ir depois de entrar com sucesso

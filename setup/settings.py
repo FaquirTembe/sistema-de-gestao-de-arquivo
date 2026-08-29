@@ -61,7 +61,7 @@ ROOT_URLCONF = 'setup.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -89,6 +89,9 @@ DATABASES = {
         'PORT': config('DB_PORT', default='5432'),
     }
 }
+
+LOGIN_URL = 'contas:entrar'              # para onde mandar quem nao esta autenticado
+LOGIN_REDIRECT_URL = '/'                 # para onde ir depois de entrar com sucesso
 
 
 # Password validation

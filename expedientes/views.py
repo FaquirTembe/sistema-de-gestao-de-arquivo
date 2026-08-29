@@ -3,8 +3,8 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 from django.contrib import messages
 from comum.permissions import NivelMinimoMixin, ApenasProprioOperadorMixin
-#from auditoria.models import LogAuditoria
-#from auditoria.utils import registar
+from auditoria.models import LogAuditoria
+from auditoria.utils import registar
 from .models import Expediente
 from .forms import ExpedienteForm
  
@@ -46,17 +46,17 @@ class CriarExpedienteView(NivelMinimoMixin, CreateView):
     template_name = 'expedientes/formulario.html'
     success_url = reverse_lazy('expedientes:meus')
  
-#    def form_valid(self, form):
+    def form_valid(self, form):
         # Antes de gravar, associamos automaticamente 'quem criou' --
         # o utilizador NUNCA escolhe isto manualmente (evitaria que
         # alguem se fizesse passar por outra pessoa).
-#        resposta = super().form_valid(form)
-#        registar(
-#            self.request, LogAuditoria.Accao.CRIAR,
-#            modelo='Expediente', objecto_id=self.object.id,
-#        )
-#        messages.success(self.request, 'Expediente registado com sucesso!')
-#        return resposta
+        resposta = super().form_valid(form)
+        registar(
+            self.request, LogAuditoria.Accao.CRIAR,
+            modelo='Expediente', objecto_id=self.object.id,
+        )
+        messages.success(self.request, 'Expediente registado com sucesso!')
+        return resposta
 
 
 

@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from expedientes.models import Expediente
+from .validators import validar_ficheiro
  
  
 def caminho_upload(instancia, nome_ficheiro):
@@ -29,7 +30,9 @@ class Documento(models.Model):
  
     categoria = models.CharField(max_length=20, choices=Categoria.choices)
     titulo = models.CharField(max_length=150)
-    arquivo = models.FileField(upload_to=caminho_upload)
+    ficheiro = models.FileField(
+        upload_to=caminho_upload, validators=[validar_ficheiro]
+    )    
     versao = models.PositiveIntegerField(default=1)
     uploadado_por = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.PROTECT
@@ -46,3 +49,5 @@ class Documento(models.Model):
         disponivel para auditoria/investigacao se for preciso."""
         self.ativo = False
         self.save(update_fields=['ativo'])
+
+

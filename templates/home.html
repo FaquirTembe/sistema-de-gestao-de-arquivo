@@ -1,20 +1,33 @@
 {% extends 'base.html' %}
 {% block titulo %}Início{% endblock %}
+{% block conteudo_total %}
+{# usamos um bloco diferente (conteudo_total) so nesta pagina, para o hero poder ocupar o ecra inteiro #}
+{# sem ficar preso dentro do <div class="container"> do layout normal -- ver Fase 4.1 do base.html #}
 
-{% block conteudo %}
-
-<h3 class="mb-4"> Olá, {{ user.nome }}!</h3>
-<p class="text-muted mb-4">Bem-vindo ao Sistema de Gestão — GDM. Escolha uma área abaixo:</p>
-<div class="row g-3">
-    <div class="col-md-4">
-        <div class="card shadow-sm h-100">
-            <div class="card-body">
-                <h5 class="card-title">Expedientes</h5>
-                <p class="card-text">Ver, criar e acompanhar expedientes.</p> <a href="{% url 'expedientes:listar' %}"
-                    class="btn btn-success">Abrir</a>
+    <div id="heroCarousel" class="carousel slide carousel-fade carousel-hero" data-bs-ride="carousel">
+        <div class="carousel-inner h-100">
+            <div class="carousel-item active h-100" style="background-image: url('https://picsum.photos/1600/900?1');">
+                <div class="hero-overlay">
+                    <div>
+                        <h1 class="display-4 fw-bold">Bem-vindo, {{ user.nome }}</h1>
+                        <p class="lead">Sistema de Gestão — Governo do Distrito de Mandlakazi</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-{% endblock %}
+    <div class="container my-5">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100 border-0">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">📁 Expedientes</h5>
+                        <p class="card-text text-muted">Criar, consultar e acompanhar processos.</p>
+                        <a href="{% url 'expedientes:listar' %}" class="btn btn-success">Abrir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

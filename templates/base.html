@@ -62,13 +62,20 @@
     </div>
   </nav>
 
-  <div class="container">
-    {% for mensagem in messages %}
-    <div class="alert alert-{{ mensagem.tags }}">{{ mensagem }}</div>
-    {% endfor %}
-    {% block conteudo %}{% endblock %}
-    ...
-  </div> {# fim do container principal #}
+  <div class="main-wrapper">
+    {% block conteudo_total %}
+    {# se a pagina NAO definir conteudo_total (como o login, listar, ver), cai aqui #}
+    {# e o conteudo fica dentro do container normal, com margens dos lados #}
+    <div class="container mt-4">
+      {% if messages %}
+      {% for mensagem in messages %}
+      <div class="alert alert-{{ mensagem.tags }}">{{ mensagem }}</div>
+      {% endfor %}
+      {% endif %}
+      {% block conteudo %}{% endblock %}
+    </div>
+    {% endblock %}
+  </div>
 
   <footer class="bg-dark text-white text-center py-3 mt-5">
     &copy; {% now "Y" %} SGE-Mandlakazi

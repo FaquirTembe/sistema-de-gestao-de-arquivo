@@ -43,6 +43,8 @@ INSTALLED_APPS = [
      'axes',              # protecao contra tentativas de login a forca bruta
 
      'contas',             # app de contas de usuario
+     'comum',              # app de utilidades comuns a varias apps
+     'expedientes',        # app de expedientes
 ]
 
 MIDDLEWARE = [

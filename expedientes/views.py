@@ -50,7 +50,6 @@ class CriarExpedienteView(NivelMinimoMixin, CreateView):
         # Antes de gravar, associamos automaticamente 'quem criou' --
         # o utilizador NUNCA escolhe isto manualmente (evitaria que
         # alguem se fizesse passar por outra pessoa).
-        form.instance.criado_por = self.request.user
         resposta = super().form_valid(form)
         registar(
             self.request, LogAuditoria.Accao.CRIAR,

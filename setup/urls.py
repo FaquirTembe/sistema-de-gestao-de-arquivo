@@ -16,10 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from comum.views import HomeView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('contas/', include('contas.urls')),            #ligamos as rotas da app contas ao mapa principal do site em setup/urls.py
+    path('', HomeView.as_view(), name='home'),
     path ('expedientes/', include ('expedientes.urls')),    
     path ('documentos/', include ('documentos.urls')),
     path ('auditoria/', include ('auditoria.urls')),

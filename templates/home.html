@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block titulo %}Início{% endblock %}
+
+{% block conteudo %}
+
+<h3 class="mb-4"> Olá, {{ user.nome }}!</h3>
+<p class="text-muted mb-4">Bem-vindo ao Sistema de Gestão — GDM. Escolha uma área abaixo:</p>
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">Expedientes</h5>
+                <p class="card-text">Ver, criar e acompanhar expedientes.</p> <a href="{% url 'expedientes:listar' %}"
+                    class="btn btn-success">Abrir</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

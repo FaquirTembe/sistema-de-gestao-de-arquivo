@@ -150,6 +150,11 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# alem das pastas static/ de cada app, o Django tambem vai procurar aqui:
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration

@@ -1,0 +1,91 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* 1. Correção do Rodapé: Estrutura Flexbox */
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-wrapper {
+    flex: 1 0 auto;
+    /* Empurra o rodapé para o fundo */
+}
+
+/* 2. Configuração do Carrossel Hero */
+.carousel-hero {
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-item {
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    transition: transform 10s ease-in-out;
+    /* Velocidade do zoom */
+}
+
+/* Efeito de Zoom Suave */
+.carousel-item.active {
+    animation: zoomEffect 12s infinite alternate;
+}
+
+@keyframes zoomEffect {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.15);
+    }
+}
+
+/* Sobreposição de texto no carrossel */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    /* Escurece a imagem para ler o texto */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    z-index: 2;
+}
+
+footer {
+    flex-shrink: 0;
+    /* Garante que o footer mantenha seu tamanho no fundo */
+}
+
+.carousel-fade .carousel-item {
+    transition-duration: 0.5s;
+    /* Altera a velocidade do efeito de desvanecimento */
+}
+
+.carousel-item.active {
+    /* Altera 12s para o tempo que desejares que o zoom dure */
+    animation: zoomEffect 5s infinite alternate;
+}

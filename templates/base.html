@@ -25,19 +25,43 @@
 
 
 <body class="bg-light">
-  <nav class="navbar navbar-dark bg-success mb-4">
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#1E7B34;">
     <div class="container">
-      <span class="navbar-brand">SGE-Mandlakazi</span>
-      {% if user.is_authenticated %}
-      <span class="text-white me-3">Ola, {{ user.nome }}</span>
-      {# um formulario com 1 botao, disfarcado de link, para o logout ir por POST #}
-      <form method="post" action="{% url 'contas:sair' %}" class="d-inline">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-outline-light btn-sm">Sair</button>
-      </form>
-      {% endif %}
+      <a class="navbar-brand fw-bold" href="{% url 'home' %}">SGE-Mandlakazi</a>
+
+      {# botao "hamburguer" que aparece em ecras pequenos (telemovel) #}
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="menuPrincipal">
+        {% if user.is_authenticated %}
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            {# request.resolver_match.url_name diz-nos o nome da pagina atual -- #}
+            {# usamos isso para acender o link certo com a classe "active" #}
+            <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active fw-bold{% endif %}"
+              href="{% url 'home' %}">Início</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if 'expedientes' in request.resolver_match.namespace %}active fw-bold{% endif %}"
+              href="{% url 'expedientes:listar' %}">Expedientes</a>
+          </li>
+          {% if user.nivel <= 2 %} <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin:index' %}">Administração</a>
+            </li>
+            {% endif %}
+        </ul>
+        <span class="navbar-text text-white me-3">Olá, {{ user.nome }}</span>
+        <form method="post" action="{% url 'contas:sair' %}" class="d-inline">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-outline-light btn-sm">Sair</button>
+        </form>
+        {% endif %}
+      </div>
     </div>
   </nav>
+
   <div class="container">
     {% for mensagem in messages %}
     <div class="alert alert-{{ mensagem.tags }}">{{ mensagem }}</div>

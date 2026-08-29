@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block conteudo %}
+<h3>Expedientes</h3>
+<a href="{% url 'expedientes:criar' %}" class="btn btn-success mb-3">+ Novo Expediente</a>
+<table class="table table-striped bg-white">
+    <thead>
+        <tr>
+            <th>Numero</th>
+            <th>Assunto</th>
+            <th>Situacao</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for exp in expedientes %}
+        <tr>
+            <td>{{ exp.numero }}</td>
+            <td>{{ exp.assunto }}</td>
+            <td><span class="badge bg-secondary">{{ exp.get_situacao_display }}</span></td>
+            <td><a href="{% url 'expedientes:ver' exp.pk %}">Ver</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

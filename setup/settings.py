@@ -46,6 +46,9 @@ INSTALLED_APPS = [
      'comum',              # app de utilidades comuns a varias apps
      'expedientes',        # app de expedientes
         'documentos',         # app de documentos
+        'auditoria',          # app de auditoria
+        
+        
 ]
 
 MIDDLEWARE = [

@@ -22,6 +22,8 @@ urlpatterns = [
     path('contas/', include('contas.urls')),            #ligamos as rotas da app contas ao mapa principal do site em setup/urls.py
     path ('expedientes/', include ('expedientes.urls')),    
     path ('documentos/', include ('documentos.urls')),
+   # path ('auditoria/', include ('auditoria.urls')),
+
 ]
 
 

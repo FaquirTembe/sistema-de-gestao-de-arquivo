@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block titulo %}Novo Expediente{% endblock %}
+{% block conteudo %}
+
+<h3 class="mb-4">Novo Expediente</h3>
+
+{# csrf_token e OBRIGATORIO em todo formulario POST -- e um 'selo' secreto #}
+{# que prova que o pedido veio mesmo deste site. #}
+<form method="post" class="card shadow-sm p-4" style="max-width: 600px;">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success w-100">Guardar Expediente</button>
+</form>
+
+{% endblock %}

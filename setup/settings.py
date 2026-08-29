@@ -47,7 +47,7 @@ INSTALLED_APPS = [
      'expedientes',        # app de expedientes
         'documentos',         # app de documentos
         'auditoria',          # app de auditoria
-        
+
         
 ]
 
@@ -120,19 +120,17 @@ AXES_LOCKOUT_PARAMETERS = ['username']   # bloqueia a CONTA, nao so o IP
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    # impede passwords parecidas com o nome/email
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+     'OPTIONS': {'min_length': 10}},
+    # minimo de 10 caracteres
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    # rejeita as 20.000 passwords mais usadas do mundo (ex.: '123456789')
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+    # rejeita passwords so com numeros
 ]
+
 
 
 # Internationalization

@@ -1,7 +1,7 @@
 import os
 from django.core.exceptions import ValidationError
 
-from documentos.models import caminho_upload
+
  
 EXTENSOES_PERMITIDAS = ['.pdf', '.jpg', '.jpeg', '.png', '.docx']
 TAMANHO_MAXIMO_MB = 5

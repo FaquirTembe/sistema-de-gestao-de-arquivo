@@ -20,6 +20,8 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('contas/', include('contas.urls')),            #ligamos as rotas da app contas ao mapa principal do site em setup/urls.py
+    path ('expedientes/', include ('expedientes.urls')),   
 ]
+
 
 

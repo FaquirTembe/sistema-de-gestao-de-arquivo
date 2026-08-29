@@ -6,9 +6,9 @@
     <div class="card shadow-sm">
       <div class="card-body">
         <h4 class="mb-3">Entrar no sistema</h4>
-        {# {% csrf_token %} é OBRIGATORIO em todo formulario POST: é um
+        <!-- {% csrf_token %} é OBRIGATORIO em todo formulario POST: é um
            'selo' secreto que prova que o pedido veio mesmo deste site,
-           e nao de um site malicioso a tentar enviar pedidos em teu nome #}
+           e nao de um site malicioso a tentar enviar pedidos em teu nome #} -->
         <form method="post">
           {% csrf_token %}
           {{ form.as_p }}

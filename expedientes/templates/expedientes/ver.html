@@ -1,0 +1,33 @@
+{% extends 'base.html' %} {% block titulo %}Expediente {{ expediente.numero }}{% endblock %} {% block conteudo %} <a
+    href="{% url 'expedientes:listar' %}" class="btn btn-outline-secondary btn-sm mb-3">&larr; Voltar à lista</a>
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h3 class="card-title">Expediente {{ expediente.numero }}</h3>
+        <p class="card-text"><strong>Assunto:</strong> {{ expediente.assunto }}</p>
+        <p class="card-text"> <strong>Situação:</strong> <span class="badge bg-secondary">{{
+                expediente.get_situacao_display }}</span> </p>
+        <p class="card-text"><strong>Criado por:</strong> {{ expediente.criado_por }}</p>
+    </div>
+</div>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4>Documentos anexados</h4> <a href="{% url 'documentos:anexar' expediente.id %}" class="btn btn-success btn-sm"> +
+        Anexar documento </a>
+</div>
+<table class="table table-striped bg-white">
+    <thead>
+        <tr>
+            <th>Categoria</th>
+            <th>Título</th>
+            <th>Enviado por</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody> {% for doc in expediente.documentos.all %} <tr>
+            <td>{{ doc.get_categoria_display }}</td>
+            <td>{{ doc.titulo }}</td>
+            <td>{{ doc.uploadado_por }}</td>
+            <td><a href="{% url 'documentos:download' doc.pk %}">Download</a></td>
+        </tr> {% empty %} <tr>
+            <td colspan="4" class="text-muted">Ainda não há documentos anexados a este expediente.</td>
+        </tr> {% endfor %} </tbody>
+</table> {% endblock %}

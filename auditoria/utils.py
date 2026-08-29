@@ -22,13 +22,13 @@ def registar(request, accao, modelo, objecto_id, descricao):
     ip = obter_ip(request)
  
     LogAuditoria.objects.create(
-        utilizador=request.user if request.user.is_authenticated else None,
+        utilizador=request.user if getattr(request, 'user', None) and request.user.is_authenticated else None,        
         accao=accao, modelo=modelo, objecto_id=str(objecto_id),
         descricao=descricao, endereco_ip=ip,
     )
  
     logger.info(
         '%s | user=%s | %s | %s#%s | ip=%s',
-        accao, getattr(request.user, 'email_login', 'anonimo'),
+         accao, getattr(getattr(request, 'user', None), 'email_login', 'anonimo'),
         descricao, modelo, objecto_id, ip,
     )

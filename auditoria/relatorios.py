@@ -3,6 +3,9 @@ from reportlab.lib.pagesizes import A4
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 from django.http import HttpResponse
+from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill
+
  
  
 def gerar_pdf_expedientes(expedientes):
@@ -32,4 +35,28 @@ def gerar_pdf_expedientes(expedientes):
     elementos.append(tabela)
  
     documento.build(elementos)   # escreve o PDF directamente dentro da response
+    return response
+
+def gerar_excel_expedientes(expedientes):
+    livro = Workbook()
+    folha = livro.active
+    folha.title = 'Expedientes'
+ 
+    cabecalho = ['Número', 'Assunto', 'Requerente', 'Situação', 'Data de Entrada']
+    folha.append(cabecalho)
+    for celula in folha[1]:
+        celula.font = Font(bold=True, color='FFFFFF')
+        celula.fill = PatternFill('solid', fgColor='2E5E4E')
+ 
+    for exp in expedientes:
+        folha.append([
+            exp.numero, exp.assunto, exp.requerente,
+            exp.get_situacao_display(), str(exp.data_entrada),
+        ])
+ 
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = 'attachment; filename="relatorio_expedientes.xlsx"'
+    livro.save(response)   # openpyxl sabe escrever directamente numa HttpResponse
     return response

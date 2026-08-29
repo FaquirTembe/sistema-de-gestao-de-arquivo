@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block titulo %}Anexar Documento{% endblock %}
+{% block conteudo %}
+
+<h3 class="mb-4">Anexar Documento</h3>
+
+{# enctype="multipart/form-data" é OBRIGATORIO sempre que um formulario envia FICHEIROS #}
+{# sem isto, o Django recebe o formulario mas o campo do ficheiro chega vazio #}
+<form method="post" enctype="multipart/form-data" class="card shadow-sm p-4" style="max-width: 600px;">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success w-100">Anexar</button>
+</form>
+
+{% endblock %}

@@ -21,3 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('contas/', include('contas.urls')),            #ligamos as rotas da app contas ao mapa principal do site em setup/urls.py
 ]
+
+
+LOGIN_URL = 'contas:entrar'              # para onde mandar quem nao esta autenticado
+LOGIN_REDIRECT_URL = '/'                 # para onde ir depois de entrar com sucesso

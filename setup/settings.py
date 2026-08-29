@@ -21,10 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# Alerta : a SECRET_KEY deve ser mantida em segredo em producao, para nao permitir que terceiros consigam gerar cookies validos e entrar no site como se fossem um utilizador autenticado.
 SECRET_KEY = config('DJANGO_SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# Alerta : DEBUG deve ser FALSE em producao, para nao mostrar detalhes de erros aos usuarios finais.
 DEBUG = config('DJANGO_DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', default='').split(',')
@@ -187,3 +187,18 @@ LOGGING = {
         },
     },
 }
+
+
+SESSION_COOKIE_AGE = 60 * 30              # a sessao expira ao fim de 30 min parada
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True     # fechar o browser tambem termina a sessao
+SESSION_COOKIE_HTTPONLY = True             # JavaScript nunca consegue ler o cookie
+CSRF_COOKIE_HTTPONLY = True
+ 
+# Em producao (quando DEBUG=False), forcar sempre HTTPS:
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = 'DENY'   # impede que o site seja carregado dentro de um <iframe> alheio

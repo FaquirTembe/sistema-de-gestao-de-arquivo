@@ -26,6 +26,7 @@ urlpatterns = [
     path ('expedientes/', include ('expedientes.urls')),    
     path ('documentos/', include ('documentos.urls')),
     path ('auditoria/', include ('auditoria.urls')),
+    path ('painel/', include ('painel.urls')),
 
 ]
 

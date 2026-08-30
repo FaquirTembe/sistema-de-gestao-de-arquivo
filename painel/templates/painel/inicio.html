@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block titulo %}Painel Administrativo{% endblock %}
+
+{% block conteudo %}
+<h3 class="mb-4">Painel Administrativo</h3>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card shadow-sm text-center">
+            <div class="card-body">
+                <div class="display-6">{{ total_expedientes }}</div>
+                <div class="text-muted">Expedientes no total</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm text-center">
+            <div class="card-body">
+                <div class="display-6">{{ total_pendentes }}</div>
+                <div class="text-muted">Ainda não arquivados</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm text-center">
+            <div class="card-body">
+                <div class="display-6">{{ total_utilizadores }}</div>
+                <div class="text-muted">Contas activas</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex gap-2 flex-wrap">
+    {% if user.eh_super_admin %}
+    <a href="{% url 'painel:utilizadores' %}" class="btn btn-outline-primary">
+        Gerir Utilizadores
+    </a>
+    <a href="{% url 'painel:estatisticas' %}" class="btn btn-outline-primary">
+        Ver Estatísticas
+    </a>
+    {% endif %}
+    <a href="{% url 'expedientes:listar' %}" class="btn btn-outline-secondary">
+        Ver Todos os Expedientes
+    </a>
+</div>
+{% endblock %}

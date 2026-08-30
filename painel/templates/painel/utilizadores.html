@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block titulo %}Utilizadores{% endblock %}
+
+{% block conteudo %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">Utilizadores</h3>
+    <a href="{% url 'painel:utilizador_novo' %}" class="btn btn-success">
+        + Nova Conta
+    </a>
+</div>
+
+<table class="table table-hover bg-white shadow-sm">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Login</th>
+            <th>Nível</th>
+            <th>Sector</th>
+            <th>Estado</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for u in utilizadores %}
+        <tr>
+            <td>{{ u.nome }}</td>
+            <td>{{ u.email_login }}</td>
+            <td>{{ u.get_nivel_display }}</td>
+            <td>{{ u.setor|default:'—' }}</td>
+            <td>
+                {% if u.is_active %}
+                <span class="badge bg-success">Activa</span>
+                {% else %}
+                <span class="badge bg-secondary">Desactivada</span>
+                {% endif %}
+            </td>
+            <td class="text-end">
+                <a href="{% url 'painel:utilizador_editar' u.pk %}" class="btn btn-sm btn-outline-primary">
+                    Editar
+                </a>
+                <form method="post" action="{% url 'painel:utilizador_alternar' u.pk %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-outline-warning">
+                        {% if u.is_active %}Desactivar{% else %}Activar{% endif %}
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% include 'comum/paginacao.html' %}
+{% endblock %}

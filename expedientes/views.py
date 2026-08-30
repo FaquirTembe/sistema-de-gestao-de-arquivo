@@ -47,17 +47,21 @@ class CriarExpedienteView(NivelMinimoMixin, CreateView):
     success_url = reverse_lazy('expedientes:meus')
  
     def form_valid(self, form):
-        # Antes de gravar, associamos automaticamente 'quem criou' --
-        # o utilizador NUNCA escolhe isto manualmente (evitaria que
-        # alguem se fizesse passar por outra pessoa).
+        # 1) PRIMEIRO atribuímos quem criou o expediente...
         form.instance.criado_por = self.request.user
+ 
+        # 2) ...SÓ DEPOIS chamamos o super(), que é quem efectivamente
+        #    grava a linha na base de dados (INSERT INTO ...).
         resposta = super().form_valid(form)
+ 
         registar(
             self.request, LogAuditoria.Accao.CRIAR,
             modelo='Expediente', objecto_id=self.object.id,
+            descricao=f'Registou o expediente {self.object.numero}',
         )
         messages.success(self.request, 'Expediente registado com sucesso!')
         return resposta
+
 
 
 

@@ -27,6 +27,7 @@ urlpatterns = [
     path ('documentos/', include ('documentos.urls')),
     path ('auditoria/', include ('auditoria.urls')),
     path ('painel/', include ('painel.urls')),
+    path ('painel/estatisticas/', include ('painel.urls')),
 
 ]
 

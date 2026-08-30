@@ -9,4 +9,5 @@ urlpatterns = [
     path('utilizadores/novo/', views.CriarUsuarioView.as_view(), name='utilizador_novo'),
     path('utilizadores/<int:pk>/editar/', views.EditarUsuarioView.as_view(), name='utilizador_editar'),
     path('utilizadores/<int:pk>/alternar/', views.AlternarAtivoUsuarioView.as_view(), name='utilizador_alternar'),
+    path('estatisticas/', views.EstatisticasView.as_view(), name='estatisticas'),
 ]

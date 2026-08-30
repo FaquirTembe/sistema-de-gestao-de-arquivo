@@ -114,3 +114,22 @@ class AlternarAtivoUsuarioView(NivelMinimoMixin, View):
         )
         messages.success(request, f'Conta de {usuario.nome} {estado}.')
         return redirect('painel:utilizadores')
+
+
+class EstatisticasView(NivelMinimoMixin, TemplateView):
+    """Exibe estatísticas do sistema, como número de expedientes,
+    documentos, utilizadores, etc. Acesso restrito a Admin (nível 2)."""
+    nivel_minimo = 2
+    template_name = 'painel/estatisticas.html'
+ 
+    def get_context_data(self, **kwargs):
+        contexto = super().get_context_data(**kwargs)
+        contexto['total_expedientes'] = Expediente.objects.count()
+        contexto['total_utilizadores'] = Usuario.objects.filter(is_active=True).count()
+        contexto['total_pendentes'] = Expediente.objects.exclude(
+            situacao=Expediente.Situacao.ARQUIVADO
+        ).count()
+        return contexto
+
+
+

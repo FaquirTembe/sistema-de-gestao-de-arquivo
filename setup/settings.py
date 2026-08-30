@@ -47,6 +47,7 @@ INSTALLED_APPS = [
      'expedientes',        # app de expedientes
         'documentos',         # app de documentos
         'auditoria',          # app de auditoria
+        'painel',             # app de painel administrativo
 
         
 ]

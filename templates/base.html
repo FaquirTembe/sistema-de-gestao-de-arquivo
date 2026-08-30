@@ -51,6 +51,11 @@
             <a class="nav-link" href="{% url 'admin:index' %}">Administração</a>
             </li>
             {% endif %}
+            {% if user.is_authenticated and user.nivel <= 2 %} <li class="nav-item">
+              <a class="nav-link" href="{% url 'painel:inicio' %}">Painel Admin</a>
+              </li>
+              {% endif %}
+
         </ul>
         <span class="navbar-text text-white me-3">Olá, {{ user.nome }}</span>
         <form method="post" action="{% url 'contas:sair' %}" class="d-inline">

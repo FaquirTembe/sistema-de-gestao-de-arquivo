@@ -59,3 +59,12 @@ class Expediente(models.Model):
         e para se poder, no futuro, reabrir um processo se necessario."""
         self.situacao = self.Situacao.ARQUIVADO
         self.save(update_fields=['situacao', 'atualizado_em'])
+
+    ativo = models.BooleanField(default=True)  # soft delete: True = ativo, False = apagado
+
+    def soft_delete(self):
+        """Marca o expediente como inativo, sem apagar da base de dados.
+        Isto preserva o historico para auditoria e para se poder, no futuro,
+        reabrir um processo se necessario."""
+        self.ativo = False
+        self.save(update_fields=['ativo'])

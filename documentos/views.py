@@ -8,11 +8,13 @@ from auditoria.models import LogAuditoria
 from auditoria.utils import registar
 from expedientes.models import Expediente
 from .models import Documento
+from django.views.generic import View
+from django.shortcuts import redirect, get_object_or_404
  
  
 class AnexarDocumentoView(NivelMinimoMixin, CreateView):
     model = Documento
-    fields = ['categoria', 'titulo', 'arquivo']
+    fields = ['categoria', 'titulo', 'ficheiro',]
     nivel_minimo = 3
     template_name = 'documentos/formulario.html'
  
@@ -67,4 +69,24 @@ class DownloadDocumentoView(NivelMinimoMixin, DetailView):
             modelo='Documento', objecto_id=documento.id,
             descricao=f'Descarregou {documento.titulo}',
         )
-        return FileResponse(documento.arquivo.open('rb'), as_attachment=True)
+        return FileResponse(documento.ficheiro.open('rb'), as_attachment=True)
+
+
+class ApagarDocumentoView(NivelMinimoMixin, View):
+    nivel_minimo = 3  # mesmo nível de quem anexa
+
+    def post(self, request, *args, **kwargs):
+        documento = get_object_or_404(Documento, pk=kwargs['pk'], ativo=True)
+
+        if request.user.nivel == request.user.NIVEL_OPERADOR \
+                and documento.expediente.criado_por_id != request.user.id:
+            from django.core.exceptions import PermissionDenied
+            raise PermissionDenied('Só podes remover dos teus próprios expedientes.')
+
+        documento.soft_delete()
+        registar(
+            request, LogAuditoria.Accao.EDITAR,  # ou criar Accao.REMOVER se preferir
+            modelo='Documento', objecto_id=documento.id,
+            descricao=f'Removeu {documento.titulo} do expediente {documento.expediente.numero}',
+        )
+        return redirect('expedientes:ver', expediente_id=documento.expediente_id)

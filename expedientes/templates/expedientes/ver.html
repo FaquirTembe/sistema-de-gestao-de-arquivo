@@ -4,15 +4,20 @@
     <div class="card-body">
         <h3 class="card-title">Expediente {{ expediente.numero }}</h3>
         <p class="card-text"><strong>Assunto:</strong> {{ expediente.assunto }}</p>
-        <p class="card-text"> <strong>Situação:</strong> <span class="badge bg-secondary">{{
-                expediente.get_situacao_display }}</span> </p>
+        <p class="card-text"> <strong>Situação:</strong> {{ expediente.get_situacao_display }}</p>
         <p class="card-text"><strong>Criado por:</strong> {{ expediente.criado_por }}</p>
     </div>
 </div>
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h4>Documentos anexados</h4> <a href="{% url 'documentos:anexar' expediente.id %}" class="btn btn-success btn-sm"> +
         Anexar documento </a>
+
+    {% if request.user.nivel == request.user.NIVEL_SUPER_ADMIN %} <form method="post"
+        action="{% url 'expedientes:apagar' expediente.pk %}"> {% csrf_token %} <button type="submit"
+            onclick="return confirm('Arquivar este expediente? Esta acao so pode ser revertida manualmente na base de dados.')">Apagar
+            expediente</button> </form> {% endif %}
 </div>
+
 <table class="table table-striped bg-white">
     <thead>
         <tr>
@@ -22,12 +27,24 @@
             <th></th>
         </tr>
     </thead>
-    <tbody> {% for doc in expediente.documentos.all %} <tr>
+    <tbody>
+        {% for doc in expediente.documentos.all %}
+        <tr>
             <td>{{ doc.get_categoria_display }}</td>
             <td>{{ doc.titulo }}</td>
             <td>{{ doc.uploadado_por }}</td>
-            <td><a href="{% url 'documentos:download' doc.pk %}">Download</a></td>
-        </tr> {% empty %} <tr>
+            <td>
+                <a href="{% url 'documentos:download' doc.pk %}">Download</a>
+                <form method="post" action="{% url 'documentos:apagar' doc.pk %}" style="display:inline">
+                    {% csrf_token %}
+                    <button type="submit" onclick="return confirm('Remover este documento?')">Apagar</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
             <td colspan="4" class="text-muted">Ainda não há documentos anexados a este expediente.</td>
-        </tr> {% endfor %} </tbody>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table> {% endblock %}

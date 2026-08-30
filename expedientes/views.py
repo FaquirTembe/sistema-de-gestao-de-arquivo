@@ -1,12 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, View
 from django.contrib import messages
 from comum.permissions import NivelMinimoMixin, ApenasProprioOperadorMixin
 from auditoria.models import LogAuditoria
 from auditoria.utils import registar
 from .models import Expediente
 from .forms import ExpedienteForm
+from django.shortcuts import get_object_or_404
  
  
 class ListarExpedientesView(NivelMinimoMixin, ListView):
@@ -62,6 +63,19 @@ class CriarExpedienteView(NivelMinimoMixin, CreateView):
         messages.success(self.request, 'Expediente registado com sucesso!')
         return resposta
 
+class ApagarExpedienteView(NivelMinimoMixin, View):      
+        nivel_minimo = 1
 
+        def post(self, request, *args, **kwargs):
+            expediente = get_object_or_404(Expediente, pk=kwargs['pk'])
+            expediente.soft_delete()  # Marca o expediente como inativo (soft delete)
+            registar(
+                request, LogAuditoria.Accao.APAGAR,
+                modelo='Expediente', objecto_id=expediente.id,
+                descricao=f'Apagou o expediente {expediente.numero}',
+            )
+            messages.success(request, 'Expediente apagado com sucesso!')
+            return redirect('expedientes:listar')
+       
 
 

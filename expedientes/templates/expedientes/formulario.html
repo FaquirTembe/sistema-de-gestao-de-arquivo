@@ -1,15 +1,48 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block titulo %}Novo Expediente{% endblock %}
+
 {% block conteudo %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4 class="card-title mb-3">Registar Novo Expediente</h4>
+                <p class="text-muted small mb-4">
+                    Preencha os dados abaixo. O número deve ser único no sistema.
+                </p>
 
-<h3 class="mb-4">Novo Expediente</h3>
+                <form method="post" novalidate>
+                    {% csrf_token %}
 
-{# csrf_token e OBRIGATORIO em todo formulario POST -- e um 'selo' secreto #}
-{# que prova que o pedido veio mesmo deste site. #}
-<form method="post" class="card shadow-sm p-4" style="max-width: 600px;">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success w-100">Guardar Expediente</button>
-</form>
+                    {# Erros gerais do formulário (não ligados a um campo específico) #}
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                    {% endif %}
 
+                    {% for campo in form %}
+                    <div class="mb-3">
+                        <label for="{{ campo.id_for_label }}" class="form-label">
+                            {{ campo.label }}
+                        </label>
+                        {{ campo }}
+                        {% if campo.help_text %}
+                        <div class="form-text">{{ campo.help_text }}</div>
+                        {% endif %}
+                        {% for erro in campo.errors %}
+                        <div class="text-danger small mt-1">{{ erro }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <a href="{% url 'home' %}" class="btn btn-outline-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-success">Guardar Expediente</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

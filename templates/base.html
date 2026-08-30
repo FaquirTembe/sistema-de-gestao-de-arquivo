@@ -68,10 +68,16 @@
     {# e o conteudo fica dentro do container normal, com margens dos lados #}
     <div class="container mt-4">
       {% if messages %}
-      {% for mensagem in messages %}
-      <div class="alert alert-{{ mensagem.tags }}">{{ mensagem }}</div>
-      {% endfor %}
+      <div class="container mt-3">
+        {% for mensagem in messages %}
+        <div class="alert alert-{{ mensagem.tags }} alert-dismissible fade show" role="alert">
+          {{ mensagem }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+      </div>
       {% endif %}
+
       {% block conteudo %}{% endblock %}
     </div>
     {% endblock %}

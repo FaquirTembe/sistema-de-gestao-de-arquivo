@@ -8,6 +8,10 @@ from auditoria.utils import registar
 from .models import Expediente
 from .forms import ExpedienteForm
 from django.shortcuts import get_object_or_404
+from comum.filtros import FiltroExpedienteMixin
+
+
+
  
  
 class ListarExpedientesView(NivelMinimoMixin, ListView):
@@ -18,7 +22,18 @@ class ListarExpedientesView(NivelMinimoMixin, ListView):
     template_name = 'expedientes/listar.html'
     context_object_name = 'expedientes'
     paginate_by = 20
+
+
+class ListarExpedientesView(NivelMinimoMixin, FiltroExpedienteMixin, ListView):
+    model = Expediente
+    nivel_minimo = 2
+    template_name = 'expedientes/listar.html'
+    context_object_name = 'expedientes'
+    paginate_by = 20
  
+    def get_queryset(self):
+        return self.filtrar_queryset(Expediente.objects.all())
+
  
 class MeusExpedientesView(NivelMinimoMixin, ListView):
     """Um Operador so ve os expedientes que ELE PROPRIO criou --
@@ -78,4 +93,19 @@ class ApagarExpedienteView(NivelMinimoMixin, View):
             return redirect('expedientes:listar')
        
 
+class MeusExpedientesView(NivelMinimoMixin, FiltroExpedienteMixin, ListView):
+    model = Expediente
+    nivel_minimo = 3
+    template_name = 'expedientes/listar.html'
+    context_object_name = 'expedientes'
+    paginate_by = 20
+ 
+    def get_queryset(self):
+        base = Expediente.objects.filter(criado_por=self.request.user)
+        return self.filtrar_queryset(base)
 
+
+
+
+ 
+ 
